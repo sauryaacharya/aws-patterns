@@ -1,0 +1,7 @@
+.idea
+**/node_modules/
+**/dist/
+**/.terraform/
+.terraform.lock.hcl
+terraform.*
+.DS_Store
