@@ -27,8 +27,8 @@ resource "aws_iam_policy_attachment" "s3_lambda_handler_logs" {
 }
 
 resource "aws_iam_policy" "lambda_sqs_policy" {
-  name        = "lambda-sqs-access"
-  description = "Allow Lambda to poll and delete messages from SQS"
+  name        = "lambda-access-policy"
+  description = "Lambda sqs and s3 policy"
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -41,6 +41,13 @@ resource "aws_iam_policy" "lambda_sqs_policy" {
           "sqs:GetQueueAttributes"
         ]
         Resource = aws_sqs_queue.file_events_queue.arn
+      },
+      {
+        Effect   = "Allow",
+        Action   = [
+          "s3:GetObject"
+        ]
+        Resource = "${aws_s3_bucket.file_upload_bucket.arn}/*"
       }
     ]
   })
@@ -56,6 +63,7 @@ resource "aws_lambda_function" "sqs_lambda_handler" {
   role             = aws_iam_role.lambda_exec.arn
   handler          = "dist/index.handler"
   runtime          = "nodejs22.x"
+  timeout          = 5
   filename         = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 }
@@ -68,6 +76,22 @@ data "archive_file" "lambda_zip" {
 
 resource "aws_sqs_queue" "file_events_queue" {
   name = "file-events-queue"
+}
+
+resource "aws_sqs_queue" "file_events_dlq" {
+  name = "file-events-dlq"
+  redrive_allow_policy = jsonencode({
+    redrivePermission = "byQueue",
+    sourceQueueArns   = [aws_sqs_queue.file_events_queue.arn]
+  })
+}
+
+resource "aws_sqs_queue_redrive_policy" "file_events_queue_policy" {
+  queue_url = aws_sqs_queue.file_events_queue.id
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.file_events_dlq.arn
+    maxReceiveCount     = 4
+  })
 }
 
 resource "aws_sqs_queue_policy" "allow_s3_send_message" {
@@ -107,4 +131,5 @@ resource "aws_lambda_event_source_mapping" "sqs_lambda_trigger" {
   function_name    = aws_lambda_function.sqs_lambda_handler.arn
   batch_size       = 10
   enabled          = true
+  function_response_types = ["ReportBatchItemFailures"]
 }
