@@ -7,5 +7,8 @@
   },
   "author": "Saurya Acharya",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.848.0"
+  }
 }
