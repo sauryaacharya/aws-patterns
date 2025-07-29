@@ -10,7 +10,8 @@ The goal is to make it easy to learn, build, and reuse proven event-driven archi
 |----------|------------------------------------|----------------------------------------------------------------------------------------------------|
 | S3 → Lambda  | Trigger Lambda on S3 upload events | [**S3 → Lambda**](https://github.com/sauryaacharya/aws-patterns/tree/main/s3-lambda)               |
  | S3 → SQS → Lambda | S3 triggers SQS to invoke Lambda   | [**S3 → SQS** → **Lambda**](https://github.com/sauryaacharya/aws-patterns/tree/main/s3-sqs-lambda) |
- | S3 → EventBridge | S3 triggers EventBridge            |  [**S3 → EventBridge**](https://github.com/sauryaacharya/aws-patterns/tree/main/s3-eventbridge)    |
+ | S3 → EventBridge | S3 triggers EventBridge            | [**S3 → EventBridge**](https://github.com/sauryaacharya/aws-patterns/tree/main/s3-eventbridge)     |
+  | SNS → SQS | SNS SQS Fan out | [**SNS → SQS**](https://github.com/sauryaacharya/aws-patterns/tree/main/sns-sqs)                                                                                  |
 
 ## 📌 Notes
 - All examples use minimal configuration to focus on the core pattern.
