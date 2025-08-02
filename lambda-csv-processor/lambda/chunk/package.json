@@ -1,0 +1,20 @@
+{
+  "name": "chunk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Saurya Acharya",
+  "license": "ISC",
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.857.0",
+    "@aws-sdk/client-sqs": "^3.857.0"
+  },
+  "dependencies": {
+    "fast-csv": "^5.0.2",
+    "p-limit": "^6.2.0"
+  }
+}
