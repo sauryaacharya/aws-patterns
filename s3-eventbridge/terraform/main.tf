@@ -44,7 +44,7 @@ resource "aws_lambda_function" "incoming_file_lambda_handler" {
   handler          = "index.handler"
   runtime          = "nodejs22.x"
   filename         = data.archive_file.incoming_lambda_zip.output_path
-  source_code_hash = data.archive_file.outgoing_lambda_zip.output_base64sha256
+  source_code_hash = data.archive_file.incoming_lambda_zip.output_base64sha256
 }
 
 resource "aws_lambda_function" "outgoing_file_lambda_handler" {
