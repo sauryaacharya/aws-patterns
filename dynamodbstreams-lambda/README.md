@@ -6,7 +6,7 @@ This project demonstrates a serverless pattern where an AWS Lambda function is a
 
 - ✅ AWS CLI installed
 
-- ✅ AWS credentials configured via aws configure (ensure access to S3 and Lambda)
+- ✅ AWS credentials configured via aws configure
 
 ```
 aws configure
